@@ -24,6 +24,7 @@ const SidebarNavbar = () => {
 
   useEffect(() => {
     const getProjects = async () => {
+      if (typeof window === "undefined") return;
       try {
         const res = await fetch(`/api/projects`);
         const json = await res.json();

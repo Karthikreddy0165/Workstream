@@ -100,6 +100,7 @@ export default function TaskBoard() {
 
   useEffect(() => {
     const getAllTasks = async () => {
+      if (typeof window === "undefined") return;
       setNavbarState(false);
       if (!projectId) return;
       try {
