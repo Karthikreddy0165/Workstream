@@ -11,8 +11,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { useDataContext } from "@/context/dataContext";
 
 export default function Component() {
+  const { userData, setUserData, isLoggedIn, setIsLoggedIn } = useDataContext();
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,7 +39,7 @@ export default function Component() {
     // Make API call to the signup endpoint
     try {
       const response = await fetch(
-        `api/users`,
+        `/api/users`,
         {
           method: "POST",
           headers: {
@@ -59,7 +61,12 @@ export default function Component() {
         throw new Error(data.error || "Something went wrong");
       }
       if (data) {
-        router.push("/");
+        const { id, name, email, role } = data.user;
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify({ id, name, email, role }));
+        setUserData({ id, name, email, role });
+        setIsLoggedIn(true);
+        router.push("/Routes/Dashboard");
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -67,16 +74,16 @@ export default function Component() {
   };
 
   return (
-    <div className="bg-black p-8 rounded-lg w-96 border border-gray-800 shadow-2xl shadow-blue-500/50">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-200">
-        Sign Up
+    <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl w-full max-w-sm">
+      <h2 className="text-xl font-bold mb-6 text-center text-slate-100">
+        Create your account
       </h2>
       {errorMessage && (
-        <p className="text-red-500 text-center mb-4">{errorMessage}</p>
+        <p className="text-xs font-semibold text-red-400 uppercase tracking-wider text-center mb-4">{errorMessage}</p>
       )}
       <form onSubmit={handleSignup} className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="name" className="text-gray-200">
+          <label htmlFor="name" className="text-sm font-medium text-slate-400">
             Name
           </label>
           <Input
@@ -86,7 +93,7 @@ export default function Component() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full bg-gray-800 border-gray-700 focus:ring-blue-500 focus:border-blue-500 text-gray-200 placeholder-gray-400"
+            className="w-full bg-slate-900/80 border-slate-800 focus:ring-blue-500 focus:border-blue-500 text-slate-200 placeholder-slate-500"
           />
         </div>
         <div className="space-y-2">
@@ -138,11 +145,11 @@ export default function Component() {
           <Select onValueChange={setRole} required>
             <SelectTrigger
               id="role"
-              className="w-full border-gray-700 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-gray-200"
+              className="w-full border-slate-800 focus:ring-blue-500 focus:border-blue-500 bg-slate-900/80 text-slate-200"
             >
               <SelectValue placeholder="Select your role" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 text-gray-200">
+            <SelectContent className="bg-slate-900 text-slate-200 border-slate-800">
               <SelectItem value="DEVELOPER">Developer</SelectItem>
               <SelectItem value="MANAGER">Manager</SelectItem>
             </SelectContent>
@@ -150,13 +157,13 @@ export default function Component() {
         </div>
         <Button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-500 focus:ring-blue-500 text-white"
+          className="w-full bg-blue-600 hover:bg-blue-500 focus:ring-blue-500 text-white font-semibold"
         >
           Sign Up
         </Button>
       </form>
       <div className="mt-4 text-center">
-        <span className="text-gray-400">Or</span>
+        <span className="text-slate-500 text-xs">Already have an account?</span>
       </div>
       {/* <Button
         className="w-full mt-4 bg-gray-700 hover:bg-gray-600 focus:ring-blue-500 text-gray-200"
@@ -166,8 +173,8 @@ export default function Component() {
       </Button> */}
 
       <Link href="/" passHref>
-        <Button className="w-full mt-4 bg-gray-700 hover:bg-gray-600 focus:ring-blue-500 text-gray-200">
-          Already have an account? Log In
+        <Button className="w-full mt-3 bg-slate-900/60 border border-slate-800 hover:bg-slate-800 text-slate-300 font-medium text-sm">
+          Sign In Instead
         </Button>
       </Link>
     </div>

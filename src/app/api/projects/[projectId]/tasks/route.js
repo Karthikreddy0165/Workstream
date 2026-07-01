@@ -17,8 +17,8 @@ export async function GET(req, { params }) {
 
   try {
     // Fetch tasks
-    const tasks = await prisma.Task.findMany({
-      where: { projectId: Number(projectId) },
+    const tasks = await prisma.task.findMany({
+      where: { projectId: projectId },
       orderBy: sort ? { [sort]: 'asc' } : undefined
     });
 
@@ -46,12 +46,12 @@ export async function POST(req, {params}){
     !taskType || !priority || !assignees ){
         return NextResponse.json({"error" : "All Fields are neccessary"}, {status: 400})
     }
-    const task = await prisma.Task.create({
+    const task = await prisma.task.create({
         data: {
           title,
           description,
           deadline,
-          projectId: Number(projectId),
+          projectId: projectId,
           status,
           taskType,
           priority,

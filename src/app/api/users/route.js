@@ -19,15 +19,15 @@ export async function POST(req) {
       const user = await prisma.user.create({
         data: { password: hashedPassword, email, role, name },
       });
-      
-      return NextResponse.json({ data: { user } }, { status: 201 });
+      const token = createToken(user);
+      return NextResponse.json({ user, token }, { status: 201 });
     } catch (error) {
       console.log(error)
       return NextResponse.json({ error: 'user already exists!!!' }, { status: 400 });
     }
   } else if (action === 'login') {
     try {
-      const user = await prisma.User.findUnique({ where: { email } });
+      const user = await prisma.user.findUnique({ where: { email } });
       if (!user) {
         return NextResponse.json({ error: 'User not found' }, { status: 404 });
       }
@@ -54,18 +54,18 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
-  const { search } = req.query;  // Get the search query from the URL
+  const search = req.nextUrl?.searchParams?.get('search'); // Get the search query from the URL
   
   try {
     let users;
     
     if (search) {
       // If there's a search query, find users by name or ID
-      users = await prisma.User.findMany({
+      users = await prisma.user.findMany({
         where: {
           OR: [
             {
-              id: parseInt(search, 10),
+              id: search,
             },
             {
               name: {
@@ -78,7 +78,7 @@ export async function GET(req) {
       });
     } else {
       // If no search query, return all users
-      users = await prisma.User.findMany();
+      users = await prisma.user.findMany();
     }
 
     return NextResponse.json({ data: users }, { status: 200 });

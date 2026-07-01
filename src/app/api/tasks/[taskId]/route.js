@@ -7,7 +7,7 @@ export async function GET(req, { params }) {
         return NextResponse.json({ error: "task Id not given" }, { status: 400 });
     }
     try {
-        const taskData = await prisma.Task.findUnique({
+        const taskData = await prisma.task.findUnique({
             select: {
                 title: true,
                 description: true,
@@ -20,7 +20,7 @@ export async function GET(req, { params }) {
                 assignees: true
             },
             where: {
-                id: Number(taskId)
+                id: taskId
             }
         });
 
@@ -42,9 +42,9 @@ export async function POST(req, { params }) {
         return NextResponse.json({ error: "newStatus not given" }, { status: 400 });
     }
     try {
-        const updateStatus = await prisma.Task.update({
+        const updateStatus = await prisma.task.update({
             where: {
-                id: Number(taskId)
+                id: taskId
             },
             data: {
                 status: newStatus

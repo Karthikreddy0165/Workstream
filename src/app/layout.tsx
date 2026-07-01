@@ -22,8 +22,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Jira Clone",
-  description: "Jira Clone",
+  title: "Workstream — Project Management",
+  description: "A premium project and task management platform for modern teams.",
 };
 
 export default function RootLayout({

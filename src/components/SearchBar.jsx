@@ -1,61 +1,57 @@
 "use client";
 
 import { useProjectData } from '@/context/Context'
-import { useState ,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 
 export default function SearchBar() {
-  const {tasks,displayTasks ,setdisplayTasks} = useProjectData()
+  const { tasks, displayTasks, setdisplayTasks } = useProjectData()
   const [query, setQuery] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    query && 
-    setdisplayTasks([...displayTasks].filter((task)=>{
-      return task.title.toLowerCase().includes(query.toLowerCase())  || 
-      task.description.toLowerCase().includes(query.toLowerCase())
-    }))
+    if (query) {
+      setdisplayTasks([...tasks].filter((task) => {
+        return task.title.toLowerCase().includes(query.toLowerCase()) || 
+          (task.description && task.description.toLowerCase().includes(query.toLowerCase()))
+      }))
+    }
   }
 
   useEffect(() => {
-    // If query is empty, reset displayTasks to the full task list
     if (query === '') {
       setdisplayTasks(tasks);
     }
   }, [query, tasks, setdisplayTasks]);
-    // e.preventDefault();
-    // console.log("Search query:", query);
-
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
-      <div className="relative flex justify-between w-full ">
-        <div className="flex justify-center w-full gap-4">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search..."
-            className="w-full  px-4 py-2 ml-4 text-gray-700  bg-white border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-          />
-
-          <button type="submit" className="relative right-12">
-            <svg
-              className="w-6 h-6 text-blue-500 hover:text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
+    <form onSubmit={handleSubmit} className="w-full mb-6">
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <svg className="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search tasks by title or description..."
+          className="w-full pl-10 pr-10 py-2.5 rounded-xl text-sm focus:outline-none transition-all border
+            dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-200 dark:placeholder-slate-500 dark:focus:ring-2 dark:focus:ring-blue-500/40
+            light:bg-white light:border-slate-200 light:text-slate-900 light:placeholder-slate-400 light:focus:ring-2 light:focus:ring-blue-600/20"
+        />
+        {query && (
+          <button 
+            type="button"
+            onClick={() => setQuery('')}
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-        </div>
+        )}
       </div>
     </form>
   )
-  }
+}

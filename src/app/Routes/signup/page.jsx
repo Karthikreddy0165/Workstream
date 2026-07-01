@@ -1,12 +1,9 @@
-import Componet from "../../../components/SignUpComponent";
+import Component from "../../../components/SignUpComponent";
 export default function SignUpPage(){
     
     return (
-        <div className="flex w-full h-full">
-            <div className="bg-black flex justify-center w-screen h-screen items-center">
-            <Componet/>
-            </div>
-            
+        <div className="min-h-screen w-screen bg-slate-950 flex justify-center items-center px-4">
+            <Component />
         </div>
     )
 }

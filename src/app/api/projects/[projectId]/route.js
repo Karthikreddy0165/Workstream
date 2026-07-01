@@ -4,12 +4,12 @@ export async function GET(request, {params}) {
     const {projectId} = params;
     if(!projectId){return NextResponse.json({error: "projectId not given"}, {status:400})}
     try{
-        const projectDetails = await prisma.Project.findUnique({
+        const projectDetails = await prisma.project.findUnique({
             select : {
                 name: true,
                 managerId: true
             },
-            where : {id: Number(projectId) }
+            where : {id: projectId }
         })
         return NextResponse.json({data: projectDetails}, {status: 200})
     }

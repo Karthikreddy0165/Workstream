@@ -1,53 +1,78 @@
+"use client";
 import { useState } from "react";
-import { FaTimes } from "react-icons/fa"; // FontAwesome or similar icon library
 
 const UpdateStatus = ({ onClose, onCancel }) => {
   const [status, setStatus] = useState("IN_PROGRESS");
 
-  const handleStatusChange = (e) => {
-    setStatus(e.target.value);
-  };
-
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-80 transform transition-transform duration-300 ease-in-out">
-        {/* Modal Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Update Status</h2>
-          <button onClick={onCancel} className="text-gray-600 hover:text-gray-900">
-            <FaTimes size={18} />
+    <div className="fixed inset-0 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm z-50 p-4" onClick={onCancel}>
+      <div className="border rounded-2xl w-full max-w-xs shadow-2xl transition-all duration-200
+        dark:bg-slate-900 dark:border-slate-800
+        light:bg-white light:border-slate-200" onClick={(e) => e.stopPropagation()}>
+        
+        {/* Header */}
+        <div className="flex justify-between items-center p-5 pb-3 border-b dark:border-slate-800/60 light:border-slate-200/60">
+          <h2 className="text-sm font-bold dark:text-slate-100 light:text-slate-800">Update Status</h2>
+          <button onClick={onCancel} className="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
 
-        {/* Label and Select Dropdown */}
-        <label htmlFor="status" className="block text-md font-semibold text-gray-700 mb-2">
-          Select new status:
-        </label>
-        <select
-          id="status"
-          value={status}
-          onChange={handleStatusChange}
-          className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
-        >
-          <option value="TODO" className="text-yellow-500">
-            TODO
-          </option>
-          <option value="IN_PROGRESS" className="text-yellow-500">
-            IN-PROGRESS
-          </option>
-          <option value="DONE" className="text-green-500">
-            DONE
-          </option>
-        </select>
+        <div className="p-5 space-y-4">
+          <div className="space-y-2">
+            {[
+              { value: "TODO", label: "To Do", color: "blue" },
+              { value: "IN_PROGRESS", label: "In Progress", color: "amber" },
+              { value: "DONE", label: "Completed", color: "emerald" }
+            ].map((option) => (
+              <label
+                key={option.value}
+                className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all border ${
+                  status === option.value
+                    ? 'bg-blue-600/10 dark:bg-blue-500/10 border-blue-600/30'
+                    : 'border-transparent hover:bg-slate-100 dark:hover:bg-slate-800/40'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="status"
+                  value={option.value}
+                  checked={status === option.value}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="sr-only"
+                />
+                <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
+                  status === option.value
+                    ? 'bg-blue-600 border-blue-600'
+                    : 'border-slate-300 dark:border-slate-700'
+                }`}>
+                  {status === option.value && (
+                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                  )}
+                </div>
+                <span className="text-sm font-medium dark:text-slate-200 light:text-slate-800">{option.label}</span>
+              </label>
+            ))}
+          </div>
 
-        {/* Save Button */}
-        <div className="mt-6 flex justify-end">
-          <button
-            onClick={()=>onClose(status)}
-            className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
-          >
-            Save
-          </button>
+          <div className="flex justify-end gap-2 pt-1">
+            <button
+              onClick={onCancel}
+              className="px-3.5 py-1.5 text-xs font-medium border rounded-lg transition-all
+                dark:bg-slate-950 dark:border-slate-800 dark:text-slate-400 dark:hover:text-slate-200
+                light:bg-white light:border-slate-200 light:text-slate-600 light:hover:bg-slate-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => onClose(status)}
+              className="px-4 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-all"
+            >
+              Update
+            </button>
+          </div>
         </div>
       </div>
     </div>
