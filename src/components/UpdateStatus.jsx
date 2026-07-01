@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 
-const UpdateStatus = ({ onClose, onCancel }) => {
-  const [status, setStatus] = useState("IN_PROGRESS");
+const UpdateStatus = ({ onClose, onCancel, currentStatus }) => {
+  const [status, setStatus] = useState(currentStatus || "IN_PROGRESS");
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm z-50 p-4" onClick={onCancel}>

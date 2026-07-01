@@ -118,7 +118,7 @@ const TaskDetails = ({ task, projectName, taskId }) => {
       </div>
 
       {isModalOpen && (
-        <UpdateStatus toggleModal={toggleModal} projectId={projectId} onClose={onClose} onCancel={onCancel} />
+        <UpdateStatus toggleModal={toggleModal} projectId={projectId} onClose={onClose} onCancel={onCancel} currentStatus={task.status} />
       )}
     </div>
   );
