@@ -1,6 +1,8 @@
 import prisma from '../../../../../../lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic';
+
 // const customPriority = {CRITICAL:1, HIGH:2, MEDIUM:3, LOW:4}
 
 const customPriorityOrder = { CRITICAL: 1, HIGH: 2, MEDIUM: 3, LOW: 4 };

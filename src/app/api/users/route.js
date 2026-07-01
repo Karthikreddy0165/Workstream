@@ -1,5 +1,7 @@
 import prisma from '../../../../lib/prisma';
 import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { error } from 'console';

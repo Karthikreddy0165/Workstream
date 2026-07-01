@@ -1,6 +1,8 @@
 import prisma from "../../../../../../lib/prisma";
 import { NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/tasks/[taskId]/comments - Fetch all comments for a task
 export async function GET(request, { params }) {
   const { taskId } = params;

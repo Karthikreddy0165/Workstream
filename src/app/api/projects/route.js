@@ -1,6 +1,8 @@
 import prisma from '../../../../lib/prisma'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic';
+
 // GET request to fetch all project names
 export async function GET() {
   try {
