@@ -23,16 +23,16 @@ export function LampDemo1() {
           </p>
 
           {/* Feature highlights */}
-          <div className="space-y-4 text-left max-w-xs mx-auto">
+          <div className="space-y-3 text-left max-w-xs mx-auto mt-4">
             {[
-              { icon: "📊", text: "Sprint insights & real-time analytics" },
-              { icon: "💬", text: "Inline task discussions & comments" },
-              { icon: "⚡", text: "One-click status transitions" },
-              { icon: "👥", text: "Team workload visibility" },
+              { text: "Sprint insights & real-time analytics" },
+              { text: "Inline task discussions & comments" },
+              { text: "One-click status transitions" },
+              { text: "Team workload visibility" },
             ].map((feature, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm">
-                <span className="text-base">{feature.icon}</span>
-                <span className="text-slate-300">{feature.text}</span>
+              <div key={i} className="flex items-center gap-2 text-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                <span className="text-slate-350">{feature.text}</span>
               </div>
             ))}
           </div>
