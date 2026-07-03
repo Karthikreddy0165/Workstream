@@ -7,6 +7,7 @@ import { useDataContext } from '@/context/dataContext';
 import ProfileModal from "./profileModal";
 import { usePathname, useRouter } from 'next/navigation';
 import { Sun, Moon } from "lucide-react";
+import { getApiUrl } from "@/../lib/api";
 
 const SidebarNavbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,7 +62,7 @@ const SidebarNavbar = () => {
       <nav className="w-full h-16 border-b flex justify-between items-center px-6 transition-colors duration-200
         dark:bg-slate-900/90 dark:border-slate-800/80 dark:text-white
         light:bg-white light:border-slate-200 light:text-slate-900 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100">
-        
+
         {/* Left Side */}
         {!navbarState ? (
           <div className="flex items-center gap-3">
@@ -92,11 +93,10 @@ const SidebarNavbar = () => {
             {/* Insights Toggle */}
             <button
               onClick={() => setShowInsights(!showInsights)}
-              className={`flex items-center py-1.5 px-3 rounded-lg border text-xs font-semibold transition-all focus:outline-none ${
-                showInsights
+              className={`flex items-center py-1.5 px-3 rounded-lg border text-xs font-semibold transition-all focus:outline-none ${showInsights
                   ? "bg-blue-600/10 border-blue-600/30 text-blue-500"
                   : "dark:bg-slate-950 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 light:bg-slate-50 light:border-slate-200 light:text-slate-500 light:hover:bg-slate-100"
-              }`}
+                }`}
             >
               <span className="mr-1.5 font-sans">Insights</span>
             </button>
